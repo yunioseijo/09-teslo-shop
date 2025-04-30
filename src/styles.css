@@ -1,4 +1,14 @@
+@font-face {
+  font-family: Montserrat;
+  src: url("../public/assets/fonts/Montserrat/MontserratAlternates-Medium.ttf");
+}
+
 @import "tailwindcss";
+
+@theme {
+  --font-montserrat: "Montserrat", sans-serif;
+}
+
 @plugin "daisyui" {
   themes: night --default;
 }
