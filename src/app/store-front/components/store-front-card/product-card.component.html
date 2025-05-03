@@ -6,10 +6,10 @@
       class="rounded-xl" />
   </figure>
   <div class="card-body items-center text-center">
-    <h2 class="card-title">Card Title</h2>
-    <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+    <h2 class="card-title font-montserrat text-lg">{{product().title}}</h2>
+    <p>{{product().description | slice: 0:70}}</p>
     <div class="card-actions">
-     <a [routerLink]="['/product','t-shirt']"
+     <a [routerLink]="['/product', product().slug]"
      class="btn btn-primary"
      >Ver</a>
     </div>

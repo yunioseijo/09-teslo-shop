@@ -1,9 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { ProductsService } from '@products/services/products.service';
 import { ProductCardComponent } from '@store-front/components/store-front-card/product-card.component';
 
 @Component({
   selector: 'app-home-page',
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent,RouterLink],
   templateUrl: './home-page.component.html',
 })
-export class HomePageComponent { }
+export class HomePageComponent {
+  productsService = inject(ProductsService);
+
+  productList = {}
+
+  productsResource = rxResource({
+    request: () => ({}),
+    loader: ({ request }) => {
+      return this.productsService.getProducts({});
+    },
+
+  });
+ }
