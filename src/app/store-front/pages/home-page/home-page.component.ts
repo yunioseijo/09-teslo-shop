@@ -12,8 +12,6 @@ import { ProductCardComponent } from '@store-front/components/store-front-card/p
 export class HomePageComponent {
   productsService = inject(ProductsService);
 
-  productList = {}
-
   productsResource = rxResource({
     request: () => ({}),
     loader: ({ request }) => {
