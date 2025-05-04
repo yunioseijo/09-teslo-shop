@@ -5,7 +5,12 @@
       class="rounded-xl" />
   </figure>
   <div class="card-body items-center text-center">
-    <h2 class="card-title font-montserrat text-lg">{{product().title}}</h2>
+    <h2
+    class="card-title font-montserrat text-lg hover:underline cursor-pointer"
+    [routerLink]="['/product', product().slug]"
+    >
+    {{product().title}}
+    </h2>
     <p>{{product().description | slice: 0:70}}</p>
     <div class="card-actions">
      <a [routerLink]="['/product', product().slug]"
