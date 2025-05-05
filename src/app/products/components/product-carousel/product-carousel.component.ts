@@ -20,7 +20,7 @@ import { ProductImagePipe } from '@products/pipes/product-image.pipe';
     `,
 })
 export class ProductCarouselComponent implements AfterViewInit {
-  images = input.required<string[] | null>();
+  images = input.required<string[]>();
 
   swiperDiv = viewChild.required<ElementRef>('swiperDiv');
 

@@ -7,7 +7,7 @@ import { ProductsService } from '@products/services/products.service';
 
 @Component({
   selector: 'app-product-page',
-  imports: [ProductImagePipe,ProductCarouselComponent],
+  imports: [ProductCarouselComponent],
   templateUrl: './product-page.component.html',
 })
 export class ProductPageComponent {
