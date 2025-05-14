@@ -33,11 +33,13 @@ export class AuthService {
 
   user = computed(() =>  this._user());
   token = computed(this._token);
+  isAdmin = computed(() => this.user()?.roles.includes('admin') ?? false);
 
   login(email: string, password: string):Observable<boolean> {
     return this.httpService.post<AuthResponse>(`${baseUrl}/auth/login`,
       { email, password }).pipe(
         tap( resp => this.handleAuthSuccess(resp)),
+        tap( () => console.log(this._user()?.roles)),
         map( () => true),
         catchError( (error) => this.handleAuthError()),
        )
@@ -49,6 +51,7 @@ export class AuthService {
       this.logout();
       return of(false);
     }
+    // TODO: Create cache and call the endpoint if needed
     return this.httpService.get<AuthResponse>(`${baseUrl}/auth/check-status`, {
       headers: {
         // added in the interceptor
