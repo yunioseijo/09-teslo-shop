@@ -4,10 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductCarouselComponent } from '@products/components/product-carousel/product-carousel.component';
 import { ProductsService } from '@products/services/products.service';
 import { map } from 'rxjs';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 
 @Component({
   selector: 'app-product-admin-page',
-  imports: [ProductCarouselComponent],
+  imports: [ProductCarouselComponent,ProductDetailsComponent],
   templateUrl: './product-admin-page.component.html',
 })
 export class ProductAdminPageComponent {
