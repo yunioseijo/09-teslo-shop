@@ -8,7 +8,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 
 @Component({
   selector: 'app-product-admin-page',
-  imports: [ProductCarouselComponent,ProductDetailsComponent],
+  imports: [ProductDetailsComponent],
   templateUrl: './product-admin-page.component.html',
 })
 export class ProductAdminPageComponent {
