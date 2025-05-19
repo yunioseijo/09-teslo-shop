@@ -49,10 +49,17 @@ export class ProductsService {
         },
       })
       .pipe(
-        tap((response) => console.log(response)),
         tap((response) => this.productsCache.set(cacheKey, response))
       );
   }
+
+/**
+ * Retrieves a product by its ID slug.
+ * @param idSlug - The slug of the product to retrieve.
+ * @returns An observable containing the product.
+ * If the product is already in the cache, the cached product is returned.
+ * Otherwise, a request is made to the server to retrieve the product, and the response is cached.
+ */
 
   getProductByIdSlug(idSlug: string): Observable<Product> {
     const cacheKey = idSlug;
@@ -63,6 +70,14 @@ export class ProductsService {
       .get<Product>(`${baseUrl}/products/${idSlug}`)
       .pipe(tap((response) => this.productCache.set(cacheKey, response)));
   }
+  /**
+   * Gets a product by id
+   * @param id the id of the product
+   * @returns The product
+   * If the id is 'new', it returns an empty product
+   * If the product is already in the cache, it returns it
+   * Otherwise, it makes a request to the server and caches the response
+   */
   getProductById(id: string): Observable<Product> {
     if(id === 'new') {
       return of(emptyProduct);
@@ -103,6 +118,12 @@ export class ProductsService {
 
     );
   }
+  /**
+   * Creates a new product and saves it to the server
+   * @param productLike A partial product with the values to save
+   * @param imageFileList The list of image files to upload
+   * @returns The created product
+   */
   createProduct(productLike: Partial<Product>, imageFileList?: FileList): Observable<Product> {
     const currentImages = productLike.images ?? [];
     return this.uploadImages(imageFileList).pipe(
@@ -136,9 +157,7 @@ export class ProductsService {
       this.uploadImage(imageFile)
     );
     return forkJoin(uploadObservables).pipe(
-      tap((imageNames) =>
-        console.log('fileNames', imageNames)
-      ),
+      // tap((imageNames) => console.log('fileNames', imageNames)),
     );
   }
   uploadImage(imageFile: File): Observable<string> {

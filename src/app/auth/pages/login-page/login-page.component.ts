@@ -29,7 +29,7 @@ export class LoginPageComponent {
       return;
     }
     const { email = '', password = '' } = this.loginForm.value;
-    console.log({ email, password });
+    // console.log({ email, password });
     this.authService.login(email!, password!)
     .subscribe((isAuthenticated) => {
       if (isAuthenticated) {

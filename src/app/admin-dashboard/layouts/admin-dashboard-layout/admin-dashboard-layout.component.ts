@@ -13,6 +13,6 @@ export class AdminDashboardLayoutComponent {
   user = computed(() => this.authService.user());
 
   constructor() {
-    console.log(this.user());
+    // console.log(this.user());
   }
  }

@@ -39,7 +39,7 @@ export class AuthService {
     return this.httpService.post<AuthResponse>(`${baseUrl}/auth/login`,
       { email, password }).pipe(
         tap( resp => this.handleAuthSuccess(resp)),
-        tap( () => console.log(this._user()?.roles)),
+        // tap( () => console.log(this._user()?.roles)),
         map( () => true),
         catchError( (error) => this.handleAuthError()),
        )

@@ -30,7 +30,7 @@ export class RegisterPageComponent {
       return;
     }
     const { email = '', password = '', fullName = '' } = this.registerForm.value;
-    console.log({ email, password });
+    // console.log({ email, password });
     this.authService.register(email!, password!, fullName!)
     .subscribe((isAuthenticated) => {
       if (isAuthenticated) {

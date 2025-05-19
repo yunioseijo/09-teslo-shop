@@ -16,6 +16,5 @@ export const NotAuthenticatedGuard: CanMatchFn = async (
     router.navigateByUrl('/');
     return false;
   }
-  // If the user is not authenticated, allow access to the route.
   return true;
 }
