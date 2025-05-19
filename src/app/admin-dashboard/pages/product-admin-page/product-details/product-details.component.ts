@@ -3,14 +3,18 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductCarouselComponent } from '@products/components/product-carousel/product-carousel.component';
 import { Product } from '@products/interfaces/product.interface';
 import { FormUtils } from '@utils/form-utils';
+import { FormErrorLabelComponent } from "../../../../shared/components/form-error-label/form-error-label.component";
+import { map } from 'rxjs';
+import { ProductsService } from '@products/services/products.service';
 
 @Component({
   selector: 'product-details',
-  imports: [ProductCarouselComponent, ReactiveFormsModule],
+  imports: [ProductCarouselComponent, ReactiveFormsModule, FormErrorLabelComponent],
   templateUrl: './product-details.component.html',
 })
 export class ProductDetailsComponent implements OnInit {
   product = input.required<Product>();
+  productsService = inject(ProductsService);
 
   fb = inject(FormBuilder);
 
@@ -59,14 +63,25 @@ export class ProductDetailsComponent implements OnInit {
     this.productForm.patchValue({sizes: currentSizes});
 
   }
-
   onSubmit() {
-    console.log(this.productForm.value);
-    if (this.productForm.valid) {
+    const isValid = this.productForm.valid;
+    this.productForm.markAllAsTouched();
+    if(!isValid) return;
+    const formValue = this.productForm.value;
 
+    const productLike: Partial<Product> = {
+      ...(formValue as any),
+      tags: formValue.tags?.toLocaleLowerCase().split(',').map( tag => tag.trim()) ?? [],
+    }
+    this.productsService.updateProduct(this.product().id!, productLike).subscribe(
+      product => {
+        console.log('Product updated', product);
+      }
+    )
   }
-  this.productForm.markAllAsTouched();
-}
 
 
 }
+
+
+
