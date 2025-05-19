@@ -1,11 +1,12 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductCarouselComponent } from '@products/components/product-carousel/product-carousel.component';
 import { Product } from '@products/interfaces/product.interface';
 import { FormUtils } from '@utils/form-utils';
 import { FormErrorLabelComponent } from "../../../../shared/components/form-error-label/form-error-label.component";
-import { map } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { ProductsService } from '@products/services/products.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'product-details',
@@ -14,9 +15,14 @@ import { ProductsService } from '@products/services/products.service';
 })
 export class ProductDetailsComponent implements OnInit {
   product = input.required<Product>();
+
+  router = inject(Router)
+  fb = inject(FormBuilder);
+
   productsService = inject(ProductsService);
 
-  fb = inject(FormBuilder);
+  wasSaved = signal(false);
+
 
   productForm = this.fb.group({
     title: ['', Validators.required],
@@ -63,7 +69,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productForm.patchValue({sizes: currentSizes});
 
   }
-  onSubmit() {
+  async onSubmit() {
     const isValid = this.productForm.valid;
     this.productForm.markAllAsTouched();
     if(!isValid) return;
@@ -73,11 +79,24 @@ export class ProductDetailsComponent implements OnInit {
       ...(formValue as any),
       tags: formValue.tags?.toLocaleLowerCase().split(',').map( tag => tag.trim()) ?? [],
     }
-    this.productsService.updateProduct(this.product().id!, productLike).subscribe(
-      product => {
-        console.log('Product updated', product);
-      }
-    )
+    if (this.product().id === 'new') {
+      //Create new product
+      const product = await firstValueFrom(
+        this.productsService.createProduct(productLike)
+      );
+      this.router.navigate(['/admin/products', product.id]);
+    }
+    else{
+      //Update Product
+      await firstValueFrom(
+        this.productsService.updateProduct(this.product().id!, productLike)
+      );
+    }
+    this.wasSaved.set(true);
+    setTimeout(() => {
+      this.wasSaved.set(false);
+    }
+    , 3000);
   }
 
 
