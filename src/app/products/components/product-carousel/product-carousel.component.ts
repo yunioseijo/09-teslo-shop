@@ -45,8 +45,8 @@ export class ProductCarouselComponent implements AfterViewInit, OnChanges {
   swiperInit(){
     const element = this.swiperDiv().nativeElement;
     if (!element) return;
-    console.log('element', element);
-    console.log(this.images());
+    // console.log('element', element);
+    // console.log(this.images());
     this.swiper = new Swiper(element, {
       // Optional parameters
       direction: 'horizontal',

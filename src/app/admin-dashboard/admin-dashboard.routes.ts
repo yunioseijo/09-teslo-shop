@@ -3,7 +3,6 @@ import { AdminDashboardLayoutComponent } from './layouts/admin-dashboard-layout/
 import { ProductAdminPageComponent } from './pages/product-admin-page/product-admin-page.component';
 import { ProductsAdminPageComponent } from './pages/products-admin-page/products-admin-page.component';
 import { IsAdminGuard } from '@auth/guards/is-admin.guards';
-import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guards';
 
 export const ADMIN_DASHBOARD_ROUTES: Routes = [
   {
